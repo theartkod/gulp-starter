@@ -1,0 +1,23 @@
+{
+  "name": "nameProject",
+  "description": "",
+  "main": "index.html",
+  "authors": [
+    "vik_kod"
+  ],
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^2.2.2",
+    "bootstrap": "4.0.0-alpha.2",
+    "font-awesome": "fontawesome#^4.6.1"
+  }
+}
