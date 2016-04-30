@@ -18,7 +18,7 @@ var path = {
         html: './dist',
         js: './dist/js',
         css: './dist/css',
-        img: './dist/images/',
+        img: './dist/img/',
         fonts: './dist/fonts',
         vendor: './dist/vendor'
     },
@@ -26,7 +26,7 @@ var path = {
         html: './src/*.html',
         js: './src/js/*.js',
         style:'./src/scss/main.scss',
-        img: './src/images/**',
+        img: './src/img/**',
         fonts: ['./bower_components/font-awesome/fonts/*.*',
             './src/fonts/*'],
         vendor: './src/vendor/*'
