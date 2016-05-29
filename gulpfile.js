@@ -7,7 +7,7 @@ var gulp            = require('gulp'),
     nameProject     = 'nameProject',
     plugins         = gulpLoadPlugins(),
     reload          = browserSync.reload,
-    portNumber       = "randomPort";
+    portNumber       = 8080;
 
 //=======================================================
 //                   Path config
