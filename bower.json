@@ -2,12 +2,7 @@
   "name": "nameProject",
   "description": "",
   "main": "index.html",
-  "authors": [
-    "vik_kod"
-  ],
-  "license": "ISC",
-  "moduleType": [],
-  "homepage": "",
+  "author": "vik_kod",
   "ignore": [
     "**/.*",
     "node_modules",
@@ -16,8 +11,8 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "^2.2.2",
+    "jquery": "3.0.0-rc1",
     "bootstrap": "4.0.0-alpha.2",
-    "font-awesome": "fontawesome#^4.6.1"
+    "font-awesome": "latest"
   }
 }

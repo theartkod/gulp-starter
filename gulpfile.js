@@ -4,10 +4,10 @@ var gulp            = require('gulp'),
     gulpLoadPlugins = require('gulp-load-plugins'),
     del             = require('del'),
     browserSync     = require('browser-sync').create(),
-    nameProject     = 'nameProject',
     plugins         = gulpLoadPlugins(),
     reload          = browserSync.reload,
-    portNumber       = 8080;
+    nameProject     = 'nameProject',
+    portNumber       = 3030;
 
 //=======================================================
 //                   Path config
@@ -50,7 +50,8 @@ gulp.task('server', function() {
             logPrefix: nameProject,
             port: portNumber,
             logFileChanges: false,
-            reloadDelay: 2000
+            reloadDelay: 1000,
+            ghostMode: false
     });
 });
 
@@ -81,7 +82,8 @@ gulp.task('html', function () {
 //=======================================================
 
 gulp.task('js',  function() {
-    return gulp.src(path.src.js, {since: gulp.lastRun('js')})
+    return gulp.src(path.src.js)
+        .pipe(plugins.newer(path.dist.js))
         .pipe(plugins.plumber())
         .pipe(plugins.uglify())
         .pipe(plugins.rename({suffix: '.min'}))
@@ -136,11 +138,11 @@ gulp.task('clean', function () {
 //=======================================================
 
 gulp.task('watch', function () {
-    gulp.watch(path.watch.style,       gulp.series('style'));
-    gulp.watch(path.watch.js,             gulp.series('js'));
-    gulp.watch(path.watch.html,         gulp.series('html'));
-    gulp.watch(path.watch.img,           gulp.series('img'));
-    gulp.watch(path.watch.vendor,     gulp.series('vendor'));
+    gulp.watch(path.watch.style,   gulp.series('style'));
+    gulp.watch(path.watch.js,         gulp.series('js'));
+    gulp.watch(path.watch.html,     gulp.series('html'));
+    gulp.watch(path.watch.img,       gulp.series('img'));
+    gulp.watch(path.watch.vendor, gulp.series('vendor'));
 });
 
 //=======================================================
