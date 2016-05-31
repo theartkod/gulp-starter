@@ -6,8 +6,7 @@ var gulp            = require('gulp'),
     browserSync     = require('browser-sync').create(),
     plugins         = gulpLoadPlugins(),
     reload          = browserSync.reload,
-    nameProject     = 'nameProject',
-    portNumber       = 3030;
+    nameProject     = 'nameProject';
 
 //=======================================================
 //                   Path config
@@ -48,7 +47,6 @@ gulp.task('server', function() {
         browserSync.init({
             server: { baseDir: './dist' },
             logPrefix: nameProject,
-            port: portNumber,
             logFileChanges: false,
             reloadDelay: 1000,
             ghostMode: false
