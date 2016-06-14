@@ -17,7 +17,7 @@ var path = {
         html: './dist',
         js: './dist/js',
         css: './dist/css',
-        img: './dist/img/',
+        img: './dist/images/',
         fonts: './dist/fonts',
         vendor: './dist/vendor'
     },
@@ -25,7 +25,7 @@ var path = {
         html: './src/*.html',
         js: './src/js/*.js',
         style:'./src/scss/main.scss',
-        img: './src/img/**',
+        img: './src/images/**',
         fonts: ['./bower_components/font-awesome/fonts/*.*',
             './src/fonts/*'],
         vendor: './src/vendor/*'
@@ -34,7 +34,7 @@ var path = {
         style: './src/scss/*.scss',
         js: './src/js/*.js',
         html: './src/**/*.html',
-        img: './src/img/*',
+        img: './src/images/*',
         vendor: './src/vendor/*'
     }
 };
@@ -141,6 +141,18 @@ gulp.task('watch', function () {
     gulp.watch(path.watch.html,     gulp.series('html'));
     gulp.watch(path.watch.img,       gulp.series('img'));
     gulp.watch(path.watch.vendor, gulp.series('vendor'));
+});
+
+//=======================================================
+//                    zip task
+//=======================================================
+
+gulp.task('zip', function () {
+    return gulp.src('../template_project/**/*')
+        .pipe(plugins.debug({title: 'zip:'}))
+        .pipe(plugins.zip(nameProject + '.zip'))
+
+        .pipe(gulp.dest('../'));
 });
 
 //=======================================================
