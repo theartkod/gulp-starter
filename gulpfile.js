@@ -117,6 +117,7 @@ gulp.task('style', function () {
 gulp.task('fonts', function () {
     return gulp.src(path.src.fonts)
         .pipe(gulp.dest(path.dist.fonts))
+        .pipe(reload({stream: true}));
 });
 
 //=======================================================
@@ -126,6 +127,7 @@ gulp.task('fonts', function () {
 gulp.task('json', function () {
     return gulp.src(path.src.json)
         .pipe(gulp.dest(path.dist.json))
+        .pipe(reload({stream: true}));
 });
 
 //=======================================================
@@ -134,7 +136,8 @@ gulp.task('json', function () {
 
 gulp.task('img', function () {
     return gulp.src(path.src.img, {since: gulp.lastRun('img')})
-        .pipe(gulp.dest(path.dist.img));
+        .pipe(gulp.dest(path.dist.img))
+        .pipe(reload({stream: true}));
 });
 
 //=======================================================
