@@ -19,6 +19,7 @@ var path = {
         css: './dist/css',
         img: './dist/images/',
         fonts: './dist/fonts',
+        json: './dist/json',
         vendor: './dist/vendor'
     },
     src: {
@@ -26,6 +27,7 @@ var path = {
         js: './src/js/*.js',
         style:'./src/scss/main.scss',
         img: './src/images/**',
+        json: './src/json/*.json',
         fonts: ['./bower_components/font-awesome/fonts/*.*',
             './src/fonts/*'],
         vendor: './src/vendor/*'
@@ -35,6 +37,7 @@ var path = {
         js: './src/js/*.js',
         html: './src/**/*.html',
         img: './src/images/*',
+        json: './src/images/*',
         vendor: './src/vendor/*'
     }
 };
@@ -82,9 +85,11 @@ gulp.task('html', function () {
 gulp.task('js',  function() {
     return gulp.src(path.src.js)
         .pipe(plugins.newer(path.dist.js))
+        .pipe(plugins.sourcemaps.init())
         .pipe(plugins.plumber())
         .pipe(plugins.uglify())
         .pipe(plugins.rename({suffix: '.min'}))
+        .pipe(plugins.sourcemaps.write())
         .pipe(gulp.dest(path.dist.js))
         .pipe(reload({stream: true}));
 });
@@ -115,6 +120,15 @@ gulp.task('fonts', function () {
 });
 
 //=======================================================
+//                       JSON
+//=======================================================
+
+gulp.task('json', function () {
+    return gulp.src(path.src.json)
+        .pipe(gulp.dest(path.dist.json))
+});
+
+//=======================================================
 //                       Images
 //=======================================================
 
@@ -137,6 +151,7 @@ gulp.task('clean', function () {
 
 gulp.task('watch', function () {
     gulp.watch(path.watch.style,   gulp.series('style'));
+    gulp.watch(path.watch.json,     gulp.series('json'));
     gulp.watch(path.watch.js,         gulp.series('js'));
     gulp.watch(path.watch.html,     gulp.series('html'));
     gulp.watch(path.watch.img,       gulp.series('img'));
@@ -160,6 +175,6 @@ gulp.task('zip', function () {
 //=======================================================
 
 gulp.task('default',
-    gulp.series('clean','style', 'js', 'vendor', 'fonts', 'img', 'html',
+    gulp.series('clean','style', 'js', 'vendor', 'fonts', 'json', 'img', 'html',
         gulp.parallel ('server', 'watch'))
 );

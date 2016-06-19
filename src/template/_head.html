@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<!--{* Кодировка всего документа *}-->
+	<meta charset="utf-8">
+	<!--{* Описание контента сайта для поисковых роботов *}-->
+	<meta description="descrption">
+	<!--{* Ключевые слова для поисковых роботов *}-->
+	<meta keywords="keywords">
+	<!--{* Сообщает о том что используется мобильная разметка, а также говорит что документ должен отображаться без автоматического масштабирования *}-->
+	<meta name="HandheldFriendly" content="true">
+	<!--{* говорим браузеру, что ширина области просмотра равняется ширине устройства, запрещаем масштабирование *}-->
+	<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width">
+	<!--{* меняем дизайн статус-бара, возможны варианты black или black-translucent *}-->
+	<meta name="apple-mobile-web-app-status-bar-style" content="default">
+	<!--{* Mobile Internet Explorer позволяет принудительно активировать технологию ClearType для сглаживания шрифтов: *}-->
+	<meta http-equiv="cleartype" content="on">
+	<!--{* Просим IE переключиться в последний режим *}-->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<!--{* Отключаем панель работы с изображениями *}-->
+	<meta http-equiv="imagetoolbar" content="no">
+	<!--{* Просим IE оформлять все в классическом стиле без учета текущей темы операционки *}-->
+	<meta http-equiv="msthemecompatible" content="no">
+	<!--{* скрывать пользовательский интерфейс браузера на iOS устройствах, если веб-приложение запускается в автономном (standalone) режиме. Any links to other pages that are clicked whilst your app is in standalone mode will launch the full Safari browser. *}-->
+	<meta name="apple-mobile-web-app-capable" content="no">
+	<!--{* запрещаем распознавать номера телефонов и адреса, а так-же выделять их *}-->
+	<!--{* telephone=no - распознается девайсами под управлением iOS и Android. address=no - распознается только Android девайсами. *}-->
+	<!--{* p.s. для обычной веб-странички лучше вставить набор CSS стилей, описывающих телефон и адрес, а не блокировать их распознание. *}-->
+	<!--{* ios/android *}-->
+	<meta name="format-detection" content="telephone=no">
+	<!--{* android only *}-->
+	<meta name="format-detection" content="address=no">
+	<!--{* Запускать Android/Chrome версий с M31 до M38 в автономном (standalone) режиме, hiding the browser chrome. Аналог "apple-mobile-web-app-capable" *}-->
+	<meta name="mobile-web-app-capable" content="no">
+	<!--{* подключаем главный файл стилей*}-->
+	<link rel="stylesheet" href="./css/main.min.css">

@@ -11,8 +11,9 @@
     "tests"
   ],
   "dependencies": {
-    "jquery":           "latest",
+    "jquery": "latest",
     "bootstrap": "4.0.0-alpha.2",
-    "font-awesome":      "latest"
+    "font-awesome": "latest",
+    "tether": "latest"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "nameProject",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "author": "vik_kod",
   "homepage": "example.com",
   "license": "MIT",
@@ -9,7 +9,7 @@
     "del": "latest",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-csso": "latest",
-    "gulp-debug": "^2.1.2",
+    "gulp-debug": "latest",
     "gulp-include": "latest",
     "gulp-load-plugins": "latest",
     "gulp-newer": "latest",
@@ -20,6 +20,6 @@
     "gulp-sass": "latest",
     "gulp-sourcemaps": "latest",
     "gulp-uglify": "latest",
-    "gulp-zip": "^3.2.0"
+    "gulp-zip": "latest"
   }
 }
