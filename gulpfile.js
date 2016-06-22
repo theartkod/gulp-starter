@@ -52,7 +52,8 @@ gulp.task('server', function() {
             logPrefix: nameProject,
             logFileChanges: false,
             reloadDelay: 1000,
-            ghostMode: false
+            ghostMode: false,
+            online: false
     });
 });
 
