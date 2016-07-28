@@ -8,6 +8,7 @@
     "browser-sync": "latest",
     "del": "latest",
     "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-autoprefixer": "latest",
     "gulp-csso": "latest",
     "gulp-debug": "latest",
     "gulp-include": "latest",
@@ -19,7 +20,6 @@
     "gulp-replace": "latest",
     "gulp-sass": "latest",
     "gulp-sourcemaps": "latest",
-    "gulp-uglify": "latest",
-    "gulp-zip": "latest"
+    "gulp-uglify": "latest"
   }
 }
