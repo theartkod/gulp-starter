@@ -5,21 +5,33 @@
   "homepage": "example.com",
   "license": "MIT",
   "devDependencies": {
+    "babel-preset-es2015": "^6.9.0",
     "browser-sync": "latest",
     "del": "latest",
+    "grunt-bower-concat": "^1.0.0",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-autoprefixer": "latest",
+    "gulp-babel": "^6.1.2",
+    "gulp-bower": "0.0.13",
     "gulp-csso": "latest",
     "gulp-debug": "latest",
+    "gulp-grunt": "^0.5.4",
     "gulp-include": "latest",
     "gulp-load-plugins": "latest",
     "gulp-newer": "latest",
+    "gulp-notify": "^2.2.0",
     "gulp-plumber": "latest",
+    "gulp-remember": "^0.3.1",
     "gulp-remove-html-comments": "latest",
     "gulp-rename": "latest",
     "gulp-replace": "latest",
     "gulp-sass": "latest",
     "gulp-sourcemaps": "latest",
-    "gulp-uglify": "latest"
+    "gulp-uglify": "latest",
+    "main-bower-files": "^2.13.1"
+  },
+  "dependencies": {
+    "gulp-sass": "^2.3.2",
+    "pageres": "^4.1.2"
   }
 }

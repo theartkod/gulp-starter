@@ -4,13 +4,17 @@
 
 'use strict';
 
-var gulp            = require('gulp'),
+const gulp          = require('gulp'),
     gulpLoadPlugins = require('gulp-load-plugins'),
     del             = require('del'),
     browserSync     = require('browser-sync').create(),
     plugins         = gulpLoadPlugins(),
+    Pageres         = require('pageres'),
     reload          = browserSync.reload,
-    nameProject     = 'nameProject';
+    mainBowerFiles  = require('main-bower-files'),
+    nameProject     = 'nameProject',
+    siteScreen      = 'http://localhost:3000',
+    resolutions     = ['iphone 4', '1920x1080'];
 
 /********************************************************************/
 /*PATH***************************************************************/
@@ -24,16 +28,16 @@ var path = {
         img: './dist/images/',
         fonts: './dist/fonts/',
         json: './dist/json/',
-        vendor: './dist/vendor/'
+        vendor: './dist/vendor/',
+        screen: './screen/'
     },
     src: {
         html: './src/*.html',
         js: './src/js/*.js',
-        style:'./src/scss/main.scss',
-        img: './src/images/**',
+        style:'./src/scss/*.scss',
+        img: './src/images/**/*',
         json: './src/json/*.json',
-        fonts: ['./bower_components/font-awesome/fonts/*.*', './src/fonts/**/*'],
-        vendor: './src/vendor/**/*'
+        fonts: './src/fonts/**/*'
     },
     watch: {
         style: './src/scss/**/*',
@@ -41,7 +45,25 @@ var path = {
         html: './src/**/*.html',
         img: './src/images/**/*',
         json: './src/json/**/*',
-        vendor: './src/vendor/**/*'
+        vendor: 'bower.json'
+    }
+};
+
+/********************************************************************/
+/*VENDOR-PATH*********************************************************/
+/********************************************************************/
+var bowerConfig  = {
+    "bootstrap": {
+        "main": ['./scss/**/*', './dist/js/bootstrap.min.js']
+    },
+    "jquery" : {
+        "main": './dist/jquery.min.js'
+    },
+    "tether" : {
+        "main" : './dist/js/tether.min.js'
+    },
+    "font-awesome" : {
+        "main" : ['./fonts/**/*', './css/font-awesome.min.css']
     }
 };
 
@@ -50,7 +72,7 @@ var path = {
 /********************************************************************/
 
 gulp.task('server', function() {
-        browserSync.init({
+      return browserSync.init({
             server: { baseDir: './dist' },
             logPrefix: nameProject,
             logFileChanges: false,
@@ -60,12 +82,26 @@ gulp.task('server', function() {
     });
 });
 
+
+/********************************************************************/
+/*MOCKUPS************************************************************/
+/********************************************************************/
+
+gulp.task('mockup', function() {
+  return new Pageres({delay: 5})
+        .src(siteScreen, resolutions, {crop: true})
+        .dest(path.dist.screen)
+        .run()
+        .then(() => console.log('Готово'));
+});
+
+
 /********************************************************************/
 /*VENDOR*************************************************************/
 /********************************************************************/
 
-gulp.task('vendor', function () {
-    return gulp.src(path.src.vendor)
+    gulp.task('vendor', function() {
+    return gulp.src(mainBowerFiles({"overrides": bowerConfig}), { base: './bower_components' })
         .pipe(gulp.dest(path.dist.vendor))
 });
 
@@ -90,6 +126,7 @@ gulp.task('js',  function() {
     return gulp.src(path.src.js)
         .pipe(plugins.newer(path.dist.js))
         .pipe(plugins.sourcemaps.init())
+        .pipe(plugins.babel({presets: ['es2015']}))
         .pipe(plugins.plumber())
         .pipe(plugins.uglify())
         .pipe(plugins.rename({suffix: '.min'}))
@@ -104,11 +141,10 @@ gulp.task('js',  function() {
 
 gulp.task('style', function () {
     return gulp.src(path.src.style)
-        .pipe(plugins.newer(path.dist.css))
         .pipe(plugins.sourcemaps.init())
         .pipe(plugins.sass.sync().on('error', plugins.sass.logError))
         .pipe(plugins.autoprefixer({browsers: ['last 10 versions'], cascade: false}))
-        .pipe(plugins.csso())
+        // .pipe(plugins.csso())
         .pipe(plugins.rename({suffix: '.min'}))
         .pipe(plugins.sourcemaps.write())
         .pipe(gulp.dest(path.dist.css))
@@ -150,7 +186,7 @@ gulp.task('img', function () {
 /********************************************************************/
 
 gulp.task('clean', function () {
-    return del('./dist', {read: false})
+    return del(['./dist', './src/vendor/**/*'], {read: false})
 });
 
 /********************************************************************/
