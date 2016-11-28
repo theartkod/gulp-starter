@@ -25,6 +25,7 @@
     "gulp-remove-html-comments": "latest",
     "gulp-rename": "latest",
     "gulp-replace": "latest",
+    "gulp-responsive": "^2.6.0",
     "gulp-sass": "latest",
     "gulp-sourcemaps": "latest",
     "gulp-uglify": "latest",
@@ -32,6 +33,7 @@
   },
   "dependencies": {
     "gulp-sass": "^2.3.2",
-    "pageres": "^4.1.2"
+    "pageres": "^4.1.2",
+    "psi": "^2.0.4"
   }
 }
