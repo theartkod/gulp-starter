@@ -4,17 +4,16 @@
 
 'use strict';
 
-const gulp = require('gulp'),
+const
+    gulp = require('gulp'),
     gulpLoadPlugins = require('gulp-load-plugins'),
     del = require('del'),
     browserSync = require('browser-sync').create(),
     plugins = gulpLoadPlugins(),
     Pageres = require('pageres'),
-    reload = browserSync.reload,
     psi = require('psi'),
     mainBowerFiles = require('main-bower-files'),
     nameProject = 'nameProject';
-
 
 
 /********************************************************************/
@@ -57,7 +56,7 @@ var path = {
 /********************************************************************/
 var bowerConfig = {
     "bootstrap": {
-        "main": ['./scss/**/*', './dist/js/bootstrap.min.js']
+        "main": ['./dist/css/bootstrap-grid.min.css', './dist/css/bootstrap-reboot.min.css']
     },
     "jquery": {
         "main": './dist/jquery.min.js'
@@ -141,7 +140,7 @@ gulp.task('imgSet', function () {
 /*SERVER*************************************************************/
 /********************************************************************/
 
-gulp.task('server', function () {
+gulp.task('server', () => {
     return browserSync.init({
         server: {baseDir: './dist'},
         logPrefix: nameProject,
@@ -156,7 +155,7 @@ gulp.task('server', function () {
 /*VENDOR*************************************************************/
 /********************************************************************/
 
-gulp.task('vendor', function () {
+gulp.task('vendor', () => {
     return gulp.src(mainBowerFiles({"overrides": bowerConfig}), {base: './bower_components'})
         .pipe(gulp.dest(path.dist.vendor))
 });
@@ -165,124 +164,122 @@ gulp.task('vendor', function () {
 /*HTML***************************************************************/
 /********************************************************************/
 
-gulp.task('html', function () {
-    return gulp.src(path.src.html)
+gulp.task('html', () => {
+    return gulp.src(path.src.html )
         .pipe(plugins.include())
         .pipe(plugins.removeHtmlComments())
         .pipe(plugins.replace(/^\s*\n/mg, ''))
         .pipe(gulp.dest(path.dist.html))
-        .pipe(reload({stream: true}));
+        .pipe(browserSync.stream());
 });
 
 /********************************************************************/
-/*JS*****************************************************************/
+/*JS:BUILD***********************************************************/
 /********************************************************************/
 
-gulp.task('js', function () {
+gulp.task('js:build', () => {
+    return gulp.src(path.src.js)
+        .pipe(plugins.babel({presets: ['es2015']}))
+        .pipe(plugins.uglify())
+        .pipe(plugins.rename({suffix: '.min'}))
+        .pipe(gulp.dest(path.dist.js))
+});
+
+/********************************************************************/
+/*JS:DEV*************************************************************/
+/********************************************************************/
+
+gulp.task('js:dev', () => {
     return gulp.src(path.src.js)
         .pipe(plugins.newer(path.dist.js))
         .pipe(plugins.sourcemaps.init())
         .pipe(plugins.babel({presets: ['es2015']}))
         .pipe(plugins.plumber())
-        .pipe(plugins.uglify())
-        .pipe(plugins.rename({suffix: '.min'}))
         .pipe(plugins.sourcemaps.write())
         .pipe(gulp.dest(path.dist.js))
-        .pipe(reload({stream: true}));
+        .pipe(browserSync.stream());
 });
 
 /********************************************************************/
-/*STYLES*************************************************************/
+/*STYLE:BUILD********************************************************/
 /********************************************************************/
 
-gulp.task('style', function () {
+gulp.task('style:build', () => {
+    return gulp.src(path.src.style)
+        .pipe(plugins.sass.sync().on('error', plugins.sass.logError))
+        .pipe(plugins.autoprefixer({browsers: ['last 3 versions'], cascade: false}))
+        .pipe(plugins.csso())
+        .pipe(plugins.rename({suffix: '.min'}))
+        .pipe(gulp.dest(path.dist.css))
+});
+
+/********************************************************************/
+/*STYLE:DEV**********************************************************/
+/********************************************************************/
+
+gulp.task('style:dev', () => {
     return gulp.src(path.src.style)
         .pipe(plugins.sourcemaps.init())
         .pipe(plugins.sass.sync().on('error', plugins.sass.logError))
-        .pipe(plugins.autoprefixer({browsers: ['last 10 versions'], cascade: false}))
-        .pipe(plugins.csso())
-        .pipe(plugins.rename({suffix: '.min'}))
+        .pipe(plugins.autoprefixer({browsers: ['last 3 versions'], cascade: false}))
         .pipe(plugins.sourcemaps.write())
         .pipe(gulp.dest(path.dist.css))
-        .pipe(reload({stream: true}));
+        .pipe(browserSync.stream());
 });
 
 /********************************************************************/
 /*FONTS *************************************************************/
 /********************************************************************/
 
-gulp.task('fonts', function () {
+gulp.task('fonts', () => {
     return gulp.src(path.src.fonts)
         .pipe(gulp.dest(path.dist.fonts))
-        .pipe(reload({stream: true}));
-});
-
-/********************************************************************/
-/*JSON***************************************************************/
-/********************************************************************/
-
-gulp.task('json', function () {
-    return gulp.src(path.src.json)
-        .pipe(gulp.dest(path.dist.json))
-        .pipe(reload({stream: true}));
+        .pipe(browserSync.stream());
 });
 
 /********************************************************************/
 /*IMAGES*************************************************************/
 /********************************************************************/
 
-gulp.task('img', function () {
+gulp.task('img', () => {
     return gulp.src(path.src.img, {since: gulp.lastRun('img')})
         .pipe(gulp.dest(path.dist.img))
-        .pipe(reload({stream: true}));
+        .pipe(browserSync.stream());
 });
 
 /********************************************************************/
 /*CLEAN**************************************************************/
 /********************************************************************/
 
-gulp.task('clean', function () {
-    return del(['./dist', './src/vendor/**/*'], {read: false})
+gulp.task('clean', () => {
+    return del(['./dist'], { read: false })
 });
 
 /********************************************************************/
 /*WATCH**************************************************************/
 /********************************************************************/
 
-gulp.task('watch', function () {
-    gulp.watch(path.watch.style,   gulp.series('style'));
-    gulp.watch(path.watch.json,     gulp.series('json'));
-    gulp.watch(path.watch.js,         gulp.series('js'));
-    gulp.watch(path.watch.html,     gulp.series('html'));
-    gulp.watch(path.watch.img,       gulp.series('img'));
-    gulp.watch(path.watch.imgSet, gulp.series('imgSet'));
-    gulp.watch(path.watch.vendor, gulp.series('vendor'));
-});
-
-gulp.task('psi', function () {
-    return psi('google.com').then(data => {
-        console.log(data.ruleGroups.SPEED.score);
-        console.log(data.pageStats);
-    });
+gulp.task('watch', () => {
+    gulp.watch(path.watch.style, gulp.series('style:dev'));
+    gulp.watch(path.watch.js,       gulp.series('js:dev'));
+    gulp.watch(path.watch.html,       gulp.series('html'));
+    gulp.watch(path.watch.img,         gulp.series('img'));
+    gulp.watch(path.watch.vendor,   gulp.series('vendor'));
 });
 
 /********************************************************************/
-/*DEFAULT************************************************************/
+/*DEV****************************************************************/
 /********************************************************************/
 
-gulp.task('default',
-    gulp.series('clean', 'img', 'imgSet', 'style', 'js', 'vendor', 'fonts', 'json', 'html',
+gulp.task('dev',
+    gulp.series('clean', 'img', 'style:dev', 'js:dev', 'vendor', 'fonts', 'html',
         gulp.parallel('server', 'watch'))
 );
 
+/********************************************************************/
+/*BUILD**************************************************************/
+/********************************************************************/
 
-
-
-/*
-
-// get the PageSpeed Insights report
-psi('http://localhost:3000').then(data => {
-    console.log(data.ruleGroups.SPEED.score);
-    console.log(data.pageStats);
-});
-*/
+gulp.task('build',
+    gulp.series('clean', 'img', 'style:build', 'js:build', 'vendor', 'fonts',  'html')
+);
